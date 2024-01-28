@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бренды</title>
+</head>
+<body>
+    <a href="/createBrand">Добавить бренд</a>
+    <h1>Список брендов</h1>
+
+    {{#each brands}}
+        <div class="brand-item">
+            <h2>{{name}}</h2>
+            <p>{{description}}</p>
+            <p>Дата основания: {{foundationDate}}</p>
+            <p>Логотип: <img src="{{logoURL}}" alt="{{name}} logo" style="height: 30px; width: 30px;"></p>
+            <p>Ссылки на социальные сети: {{socialLinks}}</p>
+
+            <!-- Добавляем кнопку удаления -->
+            <button onclick="deleteBrand('{{id}}')">Удалить</button>
+        </div>
+    {{/each}}
+</body>
+
+<script>
+    async function deleteBrand(brandId) {
+        try {
+            const response = await fetch(`/deleteBrand/${brandId}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                console.log('Brand deleted successfully');
+
+                // Обновляем страницу (можете также реализовать удаление элемента DOM)
+                window.location.reload();
+            } else {
+                const errorData = await response.json();
+                console.error('Error deleting brand:', errorData);
+            }
+        } catch (error) {
+            console.error('Error deleting brand:', error);
+        }
+    }
+</script>
+</html>
