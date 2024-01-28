@@ -8,7 +8,7 @@
 const { Sequelize } = require("sequelize");
 
 module.exports = new Sequelize(
-  "postgres://wikyx:Hik9sPSPRkP3Ds8R3o3Hhvc9SuvxUSD4@dpg-cmogsfa1hbls73b5uhjg-a.oregon-postgres.render.com/brandsrb",
+  "postgres://gywy:voiCVC7xXUns1ZzuZHtgCTRumz3UiN6E@dpg-cmrad36g1b2c73dag2ag-a.oregon-postgres.render.com/brand",
   {
     dialect: "postgres",
     dialectOptions: {
