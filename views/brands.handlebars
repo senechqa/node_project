@@ -4,29 +4,151 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Бренды</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 80%;
+            margin-top: 20px;
+        }
+
+        .brand-item {
+            background-color: #f4f4f4;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .brand-item h2 {
+            margin-top: 0;
+        }
+
+        .brand-item img {
+            height: 120px;
+            width: 120px;
+        }
+
+        .brand-item button {
+            margin-top: 10px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .brand-item button:hover {
+            background-color: #c82333;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none; /* По умолчанию скрыто */
+            position: fixed; /* Зафиксированное положение */
+            z-index: 1; /* На переднем плане */
+            left: 0;
+            top: 0;
+            width: 100%; /* Полная ширина */
+            height: 100%; /* Полная высота */
+            overflow: auto; /* Прокрутка при необходимости */
+            background-color: rgba(0,0,0,0.4); /* Черный полупрозрачный фон */
+            padding-top: 200px; /* Отступ от верхней части */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        }
+
+        .modal-button-container {
+            text-align: center;
+        }
+
+        .modal-button {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .modal-button:hover {
+            background-color: #c82333;
+        }
+
+    </style>
 </head>
 <body>
+<div class="container">
     <a href="/createBrand">Добавить бренд</a>
     <h1>Список брендов</h1>
 
     {{#each brands}}
-        <div class="brand-item">
-            <h2>{{name}}</h2>
-            <p>{{description}}</p>
-            <p>Дата основания: {{foundationDate}}</p>
-            <p>Логотип: <img src="{{logoURL}}" alt="{{name}} logo" style="height: 30px; width: 30px;"></p>
-            <p>Ссылки на социальные сети: {{socialLinks}}</p>
-
-            <!-- Добавляем кнопку удаления -->
-            <button onclick="deleteBrand('{{id}}')">Удалить</button>
-        </div>
+    <div class="brand-item">
+        <h2>{{name}}</h2>
+        <p>{{description}}</p>
+        <p>Дата основания: {{foundationDate}}</p>
+        <img src="{{logoURL}}" class="brand-image" alt="{{name}} logo" />
+        <p>Ссылки на социальные сети:{{socialLinks}}</p>
+        <button onclick="confirmDelete('{{id}}')">Удалить</button>
+    </div>
     {{/each}}
-</body>
+</div>
+
+<!-- Модальное окно подтверждения удаления -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <p>Вы уверены, что хотите удалить этот бренд?</p>
+        <div class="modal-button-container">
+            <button class="modal-button" onclick="deleteBrand()">Удалить</button>
+            <button class="modal-button" onclick="closeModal()">Отмена</button>
+        </div>
+    </div>
+</div>
 
 <script>
-    async function deleteBrand(brandId) {
-        try {
-            const response = await fetch(`/deleteBrand/${brandId}`, {
+    var currentBrandId; // Переменная для хранения ID текущего бренда
+
+    function confirmDelete(brandId) {
+        currentBrandId = brandId; // Сохраняем ID текущего бренда
+        var modal = document.getElementById('myModal');
+        modal.style.display = "block"; // Показываем модальное окно
+    }
+    async function deleteBrand () {
+         try {
+            const response = await fetch(`/deleteBrand/${currentBrandId}`, {
                 method: 'DELETE',
             });
 
@@ -42,6 +164,15 @@
         } catch (error) {
             console.error('Error deleting brand:', error);
         }
+        // Здесь можно добавить логику удаления бренда
+        console.log("Удаление бренда с ID: ", currentBrandId);
+        closeModal();
+    }
+
+    function closeModal() {
+        var modal = document.getElementById('myModal');
+        modal.style.display = "none"; // Скрываем модальное окно
     }
 </script>
+</body>
 </html>

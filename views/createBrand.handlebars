@@ -1,66 +1,64 @@
-<!-- createBrand.handlebars -->
-
-<!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Создать бренд</title>
-</head>
-<body>
-    <a href="/brands">Вернуться на главную</a>
-    <h1>Создать бренд</h1>
-    <form id="brandForm" action="/createBrand" method="POST">
+    <style>
+      body { font-family: Arial, sans-serif; margin: 0; padding: 0; display:
+      flex; flex-direction: column; align-items: center; } .container { width:
+      80%; margin-top: 20px; } h1 { margin-bottom: 20px; } form { display: flex;
+      flex-direction: column; } label { margin-bottom: 10px; } input, textarea {
+      padding: 8px; margin-bottom: 10px; border-radius: 5px; border: 1px solid
+      #ccc; } button { padding: 10px 20px; background-color: #007bff; color:
+      #fff; border: none; border-radius: 5px; cursor: pointer; } button:hover {
+      background-color: #0056b3; } a { text-decoration: none; color: #007bff;
+      margin-bottom: 20px; } a:hover { text-decoration: underline; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="/brands">Вернуться на главную</a>
+      <h1>Создать бренд</h1>
+      <form id="brandForm" action="/createBrand" method="POST">
         <label for="name">Название бренда:</label>
-        <input type="text" id="name" name="name" required><br>
+        <input type="text" id="name" name="name" required />
 
         <label for="description">Описание бренда:</label>
-        <textarea id="description" name="description"></textarea><br>
+        <textarea id="description" name="description"></textarea>
 
         <label for="foundationDate">Дата основания:</label>
-        <input type="date" id="foundationDate" name="foundationDate" required><br>
+        <input type="date" id="foundationDate" name="foundationDate" required />
 
         <label for="logoURL">URL логотипа:</label>
-        <input type="text" id="logoURL" name="logoURL"><br>
+        <input type="text" id="logoURL" name="logoURL" />
 
         <label for="socialLinks">Ссылки на социальные сети:</label>
-        <input type="text" id="socialLinks" name="socialLinks" placeholder="Разделяйте ссылки запятыми"><br>
+        <input
+          type="text"
+          id="socialLinks"
+          name="socialLinks"
+          placeholder="Разделяйте ссылки запятыми"
+        />
 
         <button type="submit">Создать бренд</button>
-    </form>
+      </form>
+    </div>
 
     <script>
-        document.getElementById('brandForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-
-            const formData = {
-                name: document.getElementById('name').value,
-                description: document.getElementById('description').value,
-                foundationDate: document.getElementById('foundationDate').value,
-                logoURL: document.getElementById('logoURL').value,
-                socialLinks: document.getElementById('socialLinks').value.split(',').map(link => link.trim()),
-            };
-
-                    window.location.href = '/brands';
-            try {
-                const response = await fetch('/createBrand', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData),
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                } else {
-                    const errorData = await response.json();
-                    console.error('Error creating brand:', errorData);
-                }
-            } catch (error) {
-                console.error('Error creating brand:', error);
-            }
-        });
+      document.getElementById('brandForm').addEventListener('submit', async
+      function(event) { event.preventDefault(); const formData = { name:
+      document.getElementById('name').value, description:
+      document.getElementById('description').value, foundationDate:
+      document.getElementById('foundationDate').value, logoURL:
+      document.getElementById('logoURL').value, socialLinks:
+      document.getElementById('socialLinks').value.split(',').map(link =>
+      link.trim()), }; try { const response = await fetch('/createBrand', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', }, body:
+      JSON.stringify(formData), }); if (response.ok) { const data = await
+      response.json(); window.location.href = '/brands'; // Перенес сюда, чтобы
+      перенаправить после успешного создания бренда } else { const errorData =
+      await response.json(); console.error('Error creating brand:', errorData);
+      } } catch (error) { console.error('Error creating brand:', error); } });
     </script>
-</body>
+  </body>
 </html>
