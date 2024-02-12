@@ -66,18 +66,17 @@
             text-decoration: underline;
         }
 
-        /* Модальное окно */
         .modal {
-            display: none; /* По умолчанию скрыто */
-            position: fixed; /* Зафиксированное положение */
-            z-index: 1; /* На переднем плане */
+            display: none; 
+            position: fixed;
+            z-index: 1;
             left: 0;
             top: 0;
-            width: 100%; /* Полная ширина */
-            height: 100%; /* Полная высота */
-            overflow: auto; /* Прокрутка при необходимости */
-            background-color: rgba(0,0,0,0.4); /* Черный полупрозрачный фон */
-            padding-top: 200px; /* Отступ от верхней части */
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.4); 
+            padding-top: 200px; 
         }
 
         .modal-content {
@@ -127,7 +126,6 @@
     {{/each}}
 </div>
 
-<!-- Модальное окно подтверждения удаления -->
 <div id="myModal" class="modal">
     <div class="modal-content">
         <p>Вы уверены, что хотите удалить этот бренд?</p>
@@ -139,12 +137,12 @@
 </div>
 
 <script>
-    var currentBrandId; // Переменная для хранения ID текущего бренда
+    var currentBrandId; 
 
     function confirmDelete(brandId) {
-        currentBrandId = brandId; // Сохраняем ID текущего бренда
+        currentBrandId = brandId; 
         var modal = document.getElementById('myModal');
-        modal.style.display = "block"; // Показываем модальное окно
+        modal.style.display = "block"; 
     }
     async function deleteBrand () {
          try {
@@ -155,7 +153,6 @@
             if (response.ok) {
                 console.log('Brand deleted successfully');
 
-                // Обновляем страницу (можете также реализовать удаление элемента DOM)
                 window.location.reload();
             } else {
                 const errorData = await response.json();
@@ -164,14 +161,14 @@
         } catch (error) {
             console.error('Error deleting brand:', error);
         }
-        // Здесь можно добавить логику удаления бренда
+
         console.log("Удаление бренда с ID: ", currentBrandId);
         closeModal();
     }
 
     function closeModal() {
         var modal = document.getElementById('myModal');
-        modal.style.display = "none"; // Скрываем модальное окно
+        modal.style.display = "none"; 
     }
 </script>
 </body>
